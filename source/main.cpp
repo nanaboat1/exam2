@@ -11,7 +11,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include "../headers/ProcessEvent.h"
+#include "../headers/Process.h"
 #include "../headers/SimulateCore.h"
 #include "../headers/Scheduler.h"
 
@@ -19,13 +19,13 @@
 void DES( ) { 
 
     // generate random processes and store in a queue. 
-    std::vector<ProcessEvent> maap; 
+    std::vector<Process> maap; 
     
     // generate arrival and execution through random process later.
 
-    for ( int i=0; i<10; i++ ) { maap.push_back(ProcessEvent(5, 5, 2)); }
+    for ( int i=0; i<10; i++ ) { maap.push_back(Process(5, 5, 2)); }
 
-    std::queue<ProcessEvent> coreAMem; 
+    std::queue<Process> coreAMem; 
 
     coreAMem.push( maap[0] ); 
     coreAMem.push( maap[1] ); 
@@ -38,9 +38,9 @@ void DES( ) {
 }
 
 
-std::queue<ProcessEvent> proceess(){
+std::queue<Process> proceess(){
 
-    std::queue<ProcessEvent> pList;
+    std::queue<Process> pList;
 
     ProcessEvent p0 = ProcessEvent(0, 4, 1);
     ProcessEvent p1 = ProcessEvent(1, 4, 1);
