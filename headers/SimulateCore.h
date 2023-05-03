@@ -13,7 +13,7 @@
 #include <vector> // standard template vector
 #include <queue>  // standard queue data structure. 
 #include "../headers/Scheduler.h"
-#include "../headers/ProcessEvent.h"
+#include "../headers/Process.h"
 
 
 class SimulateCore { 
@@ -27,7 +27,7 @@ class SimulateCore {
 
     protected : 
         
-        std::queue<ProcessEvent>  FutureEventList; // tracks future activities for the processes.
+        std::queue<Process>  FutureEventList; // tracks future activities for the processes.
         int simuID; 
         double totalWaitTime; 
         int totalEventCompleted; 
@@ -38,7 +38,7 @@ class SimulateCore {
     public : 
 
         // constructor for simulateCore. 
-        SimulateCore( int _simID, std::queue<ProcessEvent> _processes ); 
+        SimulateCore( int _simID, std::queue<Process> _processes ); 
 
         // runs the simulator.  calls its scheduler. 
         void run();  // load some FEL into scheduler.

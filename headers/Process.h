@@ -6,19 +6,23 @@
 // Resources used: <Lecture 7 and 8 from Class slides> 
 // Worked with <Bhavesh Bhagtani> 
 // <Contains object models to abstract entities for our simulation> 
-#ifndef PROCESSEVENT_H
-#define PROCESSEVENT_H
+#ifndef PROCESS_H
+#define PROCESS_H
 
 #include <string> // standard string class
 #include <vector> // standard template vector
 #include <queue>  // standard queue data structure. 
 
 
-class ProcessEvent { 
+class Process { 
     public :
 
         // settor's
-        void setState( std::string curState );
+        void setArrived( bool curState );
+
+        void setDepart( bool curState ); 
+
+        void setExecuted( bool curState ); 
 
         int getPid() const ;
         // Getter for state
@@ -26,7 +30,7 @@ class ProcessEvent {
         std::string getState() const ;
         // Getter for arrival_time
 
-        int getArrivalTime() const ;
+        int getRemainingTime() const ;
         // Getter for execution_time
 
         int getExecutionTime() const ;
@@ -41,13 +45,15 @@ class ProcessEvent {
     protected : 
         int pid;
         std::string state; // possible enum
-        int arrival_time;
-        int execution_time;
-        std::string state_info;
+        int remaining_time;
+        bool arrive;
+        bool depart; 
+        bool execute; 
         int priority;
 
     public : 
-        ProcessEvent(int arrival, int execution, int prio);
+
+        Process();
     
 
 };  
