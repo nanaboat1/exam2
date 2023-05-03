@@ -4,7 +4,9 @@
             "name": "Whitworth CS",
             "includePath": [
                 "\"${workspaceFolder}\"/**",
-                "\"/usr/local/lib/googletest/include\""
+                "\"/usr/local/lib/googletest/include\"",
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__iterator",
+                "${workspaceFolder}/headers"
             ],
             "defines": [
                 "_DEBUG"

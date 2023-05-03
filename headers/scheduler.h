@@ -1,8 +1,8 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
-#include "./data.h"
 #include <queue>
 #include <string>
+#include "./ProcessEvent.h"
 
 class Scheduler { 
 
@@ -24,10 +24,13 @@ class Scheduler {
     protected : 
 
         std::queue<ProcessEvent> arrived;
-        int scheduleID; 
+        int scheduleID;
 
 
     public : 
+
+        // default constructor.
+        Scheduler( );
 
         // runs ready state objects in the arrived queue and departs them and updates them. i.e depending on the execute
         void execute( );  // based on a certain algo schedule.

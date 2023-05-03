@@ -6,59 +6,17 @@
 // Resources used: <Lecture 7 and 8 from Class slides> 
 // Worked with <Bhavesh Bhagtani> 
 // <Contains object models to abstract entities for our simulation> 
-#ifndef DATA_H
-#define DATA_H
+#ifndef SIMULATECORE_H
+#define SIMULATECORE_H
 
 #include <string> // standard string class
 #include <vector> // standard template vector
 #include <queue>  // standard queue data structure. 
-#include "../headers/scheduler.h"
-
-
-
-
-class ProcessEvent { 
-
-    public :
-
-        // settor's
-        void setState( std::string curState );
-
-        int getPid() const ;
-        // Getter for state
-
-        std::string getState() const ;
-        // Getter for arrival_time
-
-        int getArrivalTime() const ;
-        // Getter for execution_time
-
-        int getExecutionTime() const ;
-        // Getter for state_info
-
-        std::string getStateInfo() const ;
-        // Getter for priority
-        
-        int getPriority() const ;
-
-
-    protected : 
-        int pid;
-        std::string state; // possible enum
-        int arrival_time;
-        int execution_time;
-        std::string state_info;
-        int priority;
-
-    public : 
-        ProcessEvent(int arrival, int execution, int prio);
-    
-
-};  
+#include "../headers/Scheduler.h"
+#include "../headers/ProcessEvent.h"
 
 
 class SimulateCore { 
-
     public : 
 
         // gettors 
@@ -69,7 +27,7 @@ class SimulateCore {
 
     protected : 
         
-        std::priority_queue<ProcessEvent>  FutureEventList; // tracks future activities for the processes.
+        std::queue<ProcessEvent>  FutureEventList; // tracks future activities for the processes.
         int simuID; 
         double totalWaitTime; 
         int totalEventCompleted; 
@@ -80,14 +38,10 @@ class SimulateCore {
     public : 
 
         // constructor for simulateCore. 
-        SimulateCore( int _simID, std::priority_queue<ProcessEvent> _processes ); 
+        SimulateCore( int _simID, std::queue<ProcessEvent> _processes ); 
 
         // runs the simulator.  calls its scheduler. 
         void run();  // load some FEL into scheduler.
-
-
-
-
 
 
 }; 

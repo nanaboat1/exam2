@@ -41,7 +41,7 @@
                 "\"${workspaceFolder}\"/tests/*.cpp",
                 "\"${workspaceFolder}\"/source/*.cpp",
                 "/usr/local/lib/googletest/googletest/src/gtest-all.cc",
-                "std=c++11", 
+                "-std=c++11", 
             ],
             "group": {
                 "kind": "build",

@@ -9,14 +9,13 @@
 
 // standard io libraries.
 #include <iostream>
-
-#include "../headers/data.h"
-#include "../headers/scheduler.h"
 #include <vector>
 #include <queue>
+#include "../headers/ProcessEvent.h"
+#include "../headers/SimulateCore.h"
+#include "../headers/Scheduler.h"
 
-
- // runs our simulation. 
+// runs our simulation. 
 void DES( ) { 
 
     // generate random processes and store in a queue. 
@@ -26,7 +25,7 @@ void DES( ) {
 
     for ( int i=0; i<10; i++ ) { maap.push_back(ProcessEvent(5, 5, 2)); }
 
-    std::priority_queue<ProcessEvent> coreAMem; 
+    std::queue<ProcessEvent> coreAMem; 
 
     coreAMem.push( maap[0] ); 
     coreAMem.push( maap[1] ); 
@@ -34,12 +33,7 @@ void DES( ) {
 
     SimulateCore coreA(2, coreAMem ); 
 
-    SimulateCore.
-
-
-
-
-
+    coreA.run(); 
 
 }
 
