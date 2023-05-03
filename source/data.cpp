@@ -6,6 +6,7 @@
 #include <ctime>
 #include <iostream>
 
+
     ProcessEvent::ProcessEvent(int arrival, int execution, int prio) {
         
         // Generate random ID
@@ -51,4 +52,8 @@
     // Getter for priority
     int ProcessEvent::getPriority() const {
         return priority;
-    }
+    } 
+
+
+    // implementations for SimulateCore
+    

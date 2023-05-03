@@ -34,11 +34,13 @@ class SimulateCore {
 
     public : 
 
+        // constructor for simulateCore. 
+        SimulateCore( int _simID, std::priority_queue<ProcesEvent>)
+
 
 
 
 }; 
-
 
 
 class ProcessEvent { 
