@@ -15,22 +15,32 @@
 #include <vector>
 #include <queue>
 
-std::vector<ProcessEvent> fel;
-//poplate fel
 
-std::queue<ProcessEvent> queue; //sorted fel
-// write logic to sort it by arrival time
+ // runs our simulation. 
+void DES( ) { 
 
-
-int executionTime = 0;
-
-void pushToArrived(int execTime, Scheduler s){
-    ProcessEvent temp = queue.front();
-    while (temp.getArrivalTime() < execTime)
-    {
-        
-    }
+    // generate random processes and store in a queue. 
+    std::vector<ProcessEvent> maap; 
     
+    // generate arrival and execution through random process later.
+
+    for ( int i=0; i<10; i++ ) { maap.push_back(ProcessEvent(5, 5, 2)); }
+
+    std::priority_queue<ProcessEvent> coreAMem; 
+
+    coreAMem.push( maap[0] ); 
+    coreAMem.push( maap[1] ); 
+    coreAMem.push( maap[2] ); 
+
+    SimulateCore coreA(2, coreAMem ); 
+
+    SimulateCore.
+
+
+
+
+
+
 }
 
 
@@ -60,38 +70,7 @@ std::queue<ProcessEvent> proceess(){
 
 int main() {
 
-    Scheduler s;
-    std::queue<ProcessEvent> nArrived = proceess();
-
-    s.addToArrived(nArrived.front());
-    nArrived.pop();
-
-    int counter = 0;
-    while (s.getLengthArrival() > 0)
-    {
-        ProcessEvent currentProcess = s.getFromArrived();
-        //std::cout<< "ProcessEvent " << currentProcess.getPid() << " is being executed. \n";
-        
-        counter += currentProcess.getExecutionTime();
-        //std::cout<<"Current time into system: " << counter << "ms \n";
-     
-        std::cout << currentProcess.getArrivalTime() << " -> ";
-        while(!nArrived.empty())
-        {
-    
-           ProcessEvent temp = std::move(nArrived.front());
-           if(temp.getArrivalTime() <= counter ){
-                s.addToArrived(temp);
-                // std::cout << "ProcessEvent " << temp.getPid() << "has been added to the queue. \n";
-                nArrived.pop();
-           }
-           else{
-                break;
-           }
-
-        }
-        
-    }
+   DES(); 
     
 
 

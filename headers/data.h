@@ -12,6 +12,7 @@
 #include <string> // standard string class
 #include <vector> // standard template vector
 #include <queue>  // standard queue data structure. 
+#include "../headers/scheduler.h"
 
 
 
@@ -19,8 +20,9 @@
 class ProcessEvent { 
 
     public :
+
         // settor's
-        void setState( const std::string curState );
+        void setState( std::string curState );
 
         int getPid() const ;
         // Getter for state
@@ -60,11 +62,10 @@ class SimulateCore {
     public : 
 
         // gettors 
-
-        int getsimID() const ; //{ return simuID; }
-        double getWaitTime() const;  //{ return totalWaitTime; }
-        int getEventsCompleted() const;  //{ return totalEventCompleted; }
-        int getAvgWaitTime() const;  //{ return }
+        int getsimID() const ; 
+        double getWaitTime() const;  
+        int getEventsCompleted() const; 
+        int getAvgWaitTime() const;  
 
     protected : 
         
@@ -73,11 +74,18 @@ class SimulateCore {
         double totalWaitTime; 
         int totalEventCompleted; 
         int avgWaitTime; 
+        Scheduler simSchedule; 
+
 
     public : 
 
         // constructor for simulateCore. 
         SimulateCore( int _simID, std::priority_queue<ProcessEvent> _processes ); 
+
+        // runs the simulator.  calls its scheduler. 
+        void run();  // load some FEL into scheduler.
+
+
 
 
 
