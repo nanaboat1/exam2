@@ -32,10 +32,7 @@ class Process {
 
         int getRemainingTime() const ;
         // Getter for execution_time
-
-        int getExecutionTime() const ;
-        // Getter for state_info
-
+        
         std::string getStateInfo() const ;
         // Getter for priority
         

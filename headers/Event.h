@@ -25,9 +25,12 @@ protected:
     int type;
     double time;
     int jobId;
+    int prio; 
 
 public:
-    Event(int arrival, int execution, int prio);
+    Event(int _id, double arrival, int execution, int prio, int type);
+
+    std::string toString( ); 
 };
 
 #endif

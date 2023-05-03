@@ -2,20 +2,20 @@
 #define SCHEDULER_H
 #include <queue>
 #include <string>
-#include "./ProcessEvent.h"
+#include "../headers/Process.h"
 
 class Scheduler { 
 
     public :
 
         // settor's
-        void addToArrived( std::queue<ProcessEvent> _arrived );
+        void addToArrived( std::queue<Process> _arrived );
 
         // departs finished processes from queue. based on state flag.
         void departFromQueue ( ); 
 
         // load new processes into the execution memory.
-        ProcessEvent getFromArrived() const ;
+        Process getFromArrived() const ;
         
         // get size of current arrival.
         int getLengthArrival() const ;
@@ -23,7 +23,7 @@ class Scheduler {
 
     protected : 
 
-        std::queue<ProcessEvent> arrived;
+        std::queue<Process> arrived;
         int scheduleID;
 
 

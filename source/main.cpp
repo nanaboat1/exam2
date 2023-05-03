@@ -14,6 +14,7 @@
 #include "../headers/Process.h"
 #include "../headers/SimulateCore.h"
 #include "../headers/Scheduler.h"
+#include "../headers/Event.h"
 
 // runs our simulation. 
 void DES( ) { 
@@ -25,7 +26,25 @@ void DES( ) {
 
 int main() {
 
-   DES(); 
+   // create an FEL of type Event. 
+   std::vector<Event> FutureEventList; 
+
+
+   for  ( int i =0; i<5; i++) { 
+    FutureEventList.push_back(Event(i, 0.4 + i, 3, 2,1)); 
+   }
+
+   const int totalSimTime = 10; 
+   int curTime = 0; 
+
+   while ( curTime < totalSimTime ) { 
+
+        Event immiEvt = FutureEventList[0]; 
+
+        immiEvt.toString(); 
+        curTime++; 
+   }
+
     
 
 

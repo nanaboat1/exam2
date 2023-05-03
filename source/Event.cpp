@@ -22,6 +22,6 @@ int Event::getJob() const{
     return jobId;
 }
 
-Event::Event(int id, int type, int prio){
-    
-}
+Event::Event(int _id, double arrival, int execution, int prio, int type ): id(_id), type(type), prio(prio), time(execution) {}
+
+std::string Event::toString( ) { return  std::to_string(id); }

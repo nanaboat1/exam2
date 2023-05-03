@@ -33,9 +33,6 @@ std::string Process::getState() const { return state; }
 // Getter for arrival_time
 int Process::getRemainingTime() const { return remaining_time; }
 
-// Getter for execution_time
-int Process::getExecutionTime() const { return ; }
-
 // Getter for state_info
 std::string Process::getStateInfo() const { return state; }
 
