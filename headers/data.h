@@ -13,34 +13,7 @@
 #include <vector> // standard template vector
 #include <queue>  // standard queue data structure. 
 
-class SimulateCore { 
 
-    public : 
-
-        // gettors 
-
-        int getsimID() const ; { return simuID; }
-        double getWaitTime() const;  { return totalWaitTime; }
-        int getEventsCompleted() const;  { return totalEventCompleted; }
-        int getAvgWaitTime() const;  { return }
-
-    protected : 
-        
-        std::priority_queue<ProcessEvent>  FutureEventList; // tracks future activities for the processes.
-        int simuID; 
-        double totalWaitTime; 
-        int totalEventCompleted; 
-        int avgWaitTime; 
-
-    public : 
-
-        // constructor for simulateCore. 
-        SimulateCore( int _simID, std::priority_queue<ProcesEvent>)
-
-
-
-
-}; 
 
 
 class ProcessEvent { 
@@ -78,6 +51,36 @@ class ProcessEvent {
     public : 
         ProcessEvent(int arrival, int execution, int prio);
     
+
+};  
+
+
+class SimulateCore { 
+
+    public : 
+
+        // gettors 
+
+        int getsimID() const ; //{ return simuID; }
+        double getWaitTime() const;  //{ return totalWaitTime; }
+        int getEventsCompleted() const;  //{ return totalEventCompleted; }
+        int getAvgWaitTime() const;  //{ return }
+
+    protected : 
+        
+        std::priority_queue<ProcessEvent>  FutureEventList; // tracks future activities for the processes.
+        int simuID; 
+        double totalWaitTime; 
+        int totalEventCompleted; 
+        int avgWaitTime; 
+
+    public : 
+
+        // constructor for simulateCore. 
+        SimulateCore( int _simID, std::priority_queue<ProcessEvent> _processes ); 
+
+
+
 
 }; 
 
