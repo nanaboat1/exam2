@@ -18,17 +18,17 @@ class Event
 public:
     int getid() const;
     int getType() const;
-    int getJob() const;
+    int getJobId() const;
 
 protected:
     int id;
     int type;
-    double time;
+    int time;
     int jobId;
     int prio; 
 
 public:
-    Event(int _id, double arrival, int execution, int prio, int type);
+    Event( int arrival, int prio, int type, int jobId);
 
     std::string toString( ); 
 };
