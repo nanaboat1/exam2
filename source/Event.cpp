@@ -44,7 +44,7 @@ std::string Event::toString( ) {
     if ( type == 1) { 
         event_type = " Arrival ";
     } else { 
-        event_type = " Departed ";
+        event_type = " Departure ";
     }
 
     std::string out = "{  Event_id : " + std::to_string(id) + ", time : "+ std::to_string(time) + ", job_Id: " + std::to_string(jobId) + ", Type: "+ event_type + "  } ";

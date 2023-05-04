@@ -22,7 +22,7 @@
 // global state variables.
 const int totalSimulationTime = 1000;
 int simClock = 0;
-int numInQueue = 0;
+int numEvents = 0; // get's updated whenever there's a new event created in FEL.
 
 // create an FEL of type Event. Global variable so it is accessed by different functions.
 std::queue<Event> futureEventList;
@@ -95,6 +95,8 @@ public:
             // schedule a departure event. with the specific imminent JobId.
             futureEventList.push(Event(immiEvt.getid(), simClock,1, 2, immiEvt.getJobId() )); 
 
+            numEvents += 1; 
+
 
 
         return 1; 
@@ -128,6 +130,8 @@ public:
         FCFS_aval = false; 
         // schedule a departure event. with the specific imminent JobId.
         futureEventList.push(Event(immiEvt.getid(), simClock,1, 2, immiEvt.getJobId() )); 
+
+        numEvents += 1; 
 
 
         return 1; 
@@ -166,6 +170,7 @@ public:
 
         // schedule a departure event. with the specific imminent JobId.
         futureEventList.push(Event(immiEvt.getid(), simClock,1, 2, immiEvt.getJobId() )); 
+        numEvents += 1; 
 
         //std::cout << " Round Robin Queue " << std::endl;
 
@@ -271,6 +276,62 @@ int departureDepart(/** Imminent Event Arg */)
     return 1; 
 }
 
+// this struct will keep track of the performance statistics. 
+struct PerformanceStats { 
+    int EventID; 
+    int Throughput; 
+    int Turnaround; 
+    int WaitTime; 
+    int ResponseTime; 
+    int ProcessorUtil;  
+
+    PerformanceStats( int eid, int tru=0, int turn=0, int w=0, int res=0, int proc=0 ){
+        EventID = eid; 
+        Throughput = tru; 
+        Turnaround = turn; 
+        WaitTime = w; 
+        ResponseTime = res; 
+        ProcessorUtil = proc; 
+    }
+}; 
+
+// Statistics obj.
+std::vector<PerformanceStats> Tracker; 
+PerformanceStats curStats(0); // gets current event to update.
+
+void calcStats( int _eventID ) { 
+
+        for ( int i =0; i< Tracker.size(); i++ ) { 
+            if ( _eventID == Tracker[i].EventID ) { 
+                curStats = Tracker[i]; 
+                return;
+            } 
+        }
+        Tracker.push_back(PerformanceStats(_eventID)); // create new performance statistics. 
+}
+
+void analyzeData( ) { 
+
+    // analyzes data from performance stats. 
+    float avg_turntime, avg_wait, avg_res; 
+    int totalturn, total_wait, total_res, throughput=0, procutil=0; 
+    for ( int i=0; i< Tracker.size(); i++ ) { 
+        total_wait += Tracker[i].WaitTime; 
+        total_res += Tracker[i].ResponseTime; 
+        totalturn += Tracker[i].Turnaround; 
+        throughput += Tracker[i].Throughput; 
+        procutil += Tracker[i].ProcessorUtil; 
+        
+    }
+
+    avg_turntime = totalturn / Tracker.size(); 
+    avg_wait = total_wait / Tracker.size(); 
+    avg_res = total_res / Tracker.size(); 
+
+    std::cout << std::to_string(throughput) << std::to_string(avg_turntime) << std::to_string(avg_wait) << std::to_string(avg_res) << std::to_string(procutil) << std::endl;
+    
+}
+
 int main()
 {   
     srand(time(NULL)); 
@@ -294,45 +355,55 @@ int main()
 
     // Generate 10 FELS first make them arrive.
     for ( int i=0; i<10; i++ ) { 
-        
         { 
             int rId = rand() % 1000; int rTime = rand() % totalSimulationTime/100 + 2; 
             int rPrio = rand() % 4; int rJId = rand() % 3 + 1;
             
             futureEventList.push( Event(rId,rTime,rPrio,1,rJId) ); 
-
+            numEvents += 1; 
         }
-
     } 
 
-
+ 
     // simClock will be updated within the processes.
-
     while (simClock < totalSimulationTime)
     { // adapted from in-class lectures.
 
-        immiEvt = futureEventList.front();
+        immiEvt = futureEventList.front(); // stat's collection will be here
 
         
-        // OUTPUT : cout cur FEL pulled. 
+        // OUTPUT : cout current FEL pulled. 
         std::cout << immiEvt.toString() << " is scheduled" << std::endl;
 
+        // check if event does not exist. using a util function.
+        calcStats( immiEvt.getid() ); 
+
+        curStats.ProcessorUtil += 1;
+        
         switch (immiEvt.getType())
         {
         case 1:
+            curStats.WaitTime += immiEvt.getTime();
             arrivalEvent();
+            curStats.ResponseTime += immiEvt.getTime();
+            
             break; 
         case 2:
+            curStats.Turnaround += simClock;
             departureDepart();
+            curStats.Throughput += immiEvt.getTime();
             break;
         default:
             break;
         } 
 
-        if ( futureEventList.empty() ) { break; }
+        if ( futureEventList.empty() ) { break; } // error-checking
 
         futureEventList.pop();
-    }
+    } 
+
+    std::cout << std::endl; 
+    analyzeData(); 
 
     return 0;
 }
