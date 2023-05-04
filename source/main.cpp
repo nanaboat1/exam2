@@ -87,7 +87,7 @@ public:
             // add to departure queue
             PriorDepartQueue.push_back( curProc );
             curProc.setState();
-            sleep(immiEvt.getTime()% 10); 
+            //sleep(immiEvt.getTime()% 10); 
             std::cout << curProc.toString() << " in " << std::to_string(immiEvt.getTime()) << " secs" << std::endl;  
         }
 
@@ -97,8 +97,6 @@ public:
             futureEventList.push(Event(immiEvt.getid(), simClock,1, 2, immiEvt.getJobId() )); 
 
             numEvents += 1; 
-
-
 
         return 1; 
     }
@@ -125,8 +123,6 @@ public:
 
             //sleep(immiEvt.getTime()% 10); 
         } 
-
-        
 
         FCFS_aval = false; 
         // schedule a departure event. with the specific imminent JobId.
@@ -339,86 +335,79 @@ int main()
 {   
     srand(time(NULL)); 
 
-    /* 
-    for (int i = 1; i <= 10; ++i)
-    {
-        int pid = i;
-        int execution = std::rand() % 20 + 1;   // random execution time between 1 and 20
-        int arrival = std::rand() % i * 10 + 1; // random execution time between 1 and 20
-        int priority = std::rand() % 3 + 1;     // random priority between 1 and 3
-        Process p(pid, arrival, execution, priority);
-        processList.push_back(p);
 
-        Event aEvent = Event(arrival, priority, 0, pid);
-        Event dEvent = Event(arrival + execution, priority, 1, pid);
-        
-        futureEventList.push_back(aEvent);
-        futureEventList.push_back(dEvent);
-    }*/
 
-    // Generate 10 FELS first make them arrive.
-    for ( int i=0; i<10; i++ ) { 
-        { 
-            int rId = rand() % 1000; int rTime = rand() % totalSimulationTime/100 + 2; 
-            int rPrio = rand() % 4; int rJId = rand() % 3 + 1;
-            
-            futureEventList.push( Event(rId,rTime,rPrio,1,rJId) ); 
-            numEvents += 1; 
-        }
-    } 
 
-    // statistics collector.
-    int avg_turntime, avg_wait, avg_res; 
-    int totalturn, total_wait, total_res, throughput=0, procutil=0;
-
- 
-    // simClock will be updated within the processes.
-    while (simClock < totalSimulationTime)
-    { // adapted from in-class lectures.
-
-        immiEvt = futureEventList.front(); // stat's collection will be here
-
-        
-        // OUTPUT : cout current FEL pulled. 
-        std::cout << immiEvt.toString() << " is scheduled" << std::endl;
-
-        // check if event does not exist. using a util function.
-        throughput += simClock;
-        procutil += 1;
-
-        numEvents += 1;       
-        switch (immiEvt.getType())
-        {
-
-            procutil += 1;
-        case 1:
-            total_wait += simClock;
-            arrivalEvent();
-            total_res += simClock;           
-            break; 
-        case 2:
-            totalturn += simClock; 
-            total_wait += simClock;
-            departureDepart();
-            throughput += simClock;
-            break;
-        default:
-            break;
+    for ( int i=0; i<5; i++ ) { 
+        // Generate 10 FELS first make them arrive.
+        numEvents = 0; // reset.
+        simClock = 0; // reset.
+        for ( int i=0; i<10; i++ ) { 
+            { 
+                int rId = rand() % 1000; int rTime = rand() % totalSimulationTime/100 + 2; 
+                int rPrio = rand() % 4; int rJId = 3; //  set rJid=1 for Priority Scheduling, RJid=2 for first come first serve, RjId=3 for Roundrobin.
+                
+                futureEventList.push( Event(rId,rTime,rPrio,1,rJId) ); 
+                numEvents += 1; 
+            }
         } 
 
-        if ( futureEventList.empty() ) { break; } // error-checking
+        // statistics collector.
+        int avg_turntime, avg_wait, avg_res; 
+        int totalturn, total_wait, total_res, throughput=0, procutil=0;
 
-        futureEventList.pop();
-    } 
+    
+        // simClock will be updated within the processes.
+        while (simClock < totalSimulationTime)
+        { // adapted from in-class lectures.
 
-    // statistics calculator after every simulation. 
-    avg_turntime = totalturn / (numEvents*1000); 
-    avg_wait = total_wait / (numEvents *1000);
-    avg_res = total_res /   (numEvents*1000); 
+            immiEvt = futureEventList.front(); // stat's collection will be here
 
-    std::cout << "--------------------" <<std::endl; 
-    std::cout<< "stats" << std::endl; 
-    std::cout << std::to_string(std::round(throughput)) << "  " <<std::to_string(avg_turntime) << " " << std::to_string(avg_wait) << " " << std::to_string(avg_res)<< " " << std::to_string(std::round( procutil)) << std::endl;
+            
+            // OUTPUT : cout current FEL pulled. 
+            std::cout << immiEvt.toString() << " is scheduled" << std::endl;
+
+            // check if event does not exist. using a util function.
+            throughput += simClock;
+            procutil += 1;
+
+            numEvents += 1;       
+            switch (immiEvt.getType())
+            {
+                total_wait += simClock;
+                procutil += 1;
+            case 1:
+                total_wait += simClock;
+                arrivalEvent();
+                throughput += simClock;
+                total_res += simClock;           
+                break; 
+            case 2:
+                totalturn += simClock; 
+                total_wait += simClock;
+                departureDepart();
+                throughput += simClock;
+                break;
+            default:
+                break;
+            } 
+
+            if ( futureEventList.empty() ) { break; } // error-checking
+
+            futureEventList.pop();
+        } 
+
+        // statistics calculator after every simulation. 
+        avg_turntime = totalturn / (numEvents*10000); 
+        avg_wait = total_wait / (200); // ussed simulation time as reference
+        avg_res = total_res /  (numEvents*10000); 
+
+        std::cout << "--------------------" <<std::endl; 
+        std::cout<< "stats" << std::endl; 
+        std::cout << std::to_string(throughput) << "  " <<std::to_string(avg_turntime) << " " << std::to_string(avg_wait) << " " << std::to_string(avg_res)<< " " << std::to_string(std::round( procutil)) << std::endl;
+        std::cout << "--------------------" << std::endl;
+
+    }
 
     return 0;
 }
