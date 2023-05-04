@@ -23,9 +23,9 @@ int Event::getJobId() const{
 }
 
 Event::Event( int arrival, int prio, int type, int jobId ) {
-    time = arrival;
-    type = type;
-    prio = prio;
+    this->time = arrival;
+    this->type = type;
+    this->prio = prio;
     this->jobId = jobId;
 
 }
