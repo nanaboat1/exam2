@@ -15,8 +15,7 @@
 #include "../headers/SimulateCore.h"
 #include "../headers/Event.h"
 
-class Scheduler
-{
+class Scheduler {
 
 public:
     std::vector<Process> FCFSQueue;
@@ -60,36 +59,11 @@ public:
     // work on it later
     void updateStatistics(); // updates certain statistics and send it to SimulateCore for stat variables.
 };
-        // executes a job based on the FEL.
-        int Execute( ) { 
-
-            switch (immiEvt.getJob()) // based on job choose a specific queue.
-            {
-            case 1: // Pirority Queue
-                /* code */
-                break;
-            case 2: // Call RoundRobin
-                /* code */
-                break; 
-            case 3: // Call FCFS
-
-                /** code */
-                break; 
-
-        default: // call first come first serve.
-            /* code */
-            break;
-        }
-    }
-
-    // work on it later
-    void updateStatistics(); // updates certain statistics and send it to SimulateCore for stat variables.
-};
 
 // create an FEL of type Event. Global variable so it is accessed by different functions.
 std::vector<Event> futureEventList;
 std::vector<Process> processList;
-Event immiEvt;
+Event immiEvt(1,1,1,1);
 
 // runs our simulation.
 int arrivalEvent(/** Imminent Event arg */)
@@ -145,8 +119,8 @@ int main()
             break;
         case 2: 
 
-        case 2: 
-        
+        case 3: 
+            /** code */
         default:
             break;
         }
