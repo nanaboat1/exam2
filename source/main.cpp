@@ -328,7 +328,7 @@ void analyzeData( ) {
     avg_wait = total_wait / Tracker.size(); 
     avg_res = total_res / Tracker.size(); 
 
-    std::cout << std::to_string(throughput) << std::to_string(avg_turntime) << std::to_string(avg_wait) << std::to_string(avg_res) << std::to_string(procutil) << std::endl;
+    std::cout << std::to_string(throughput) << "  " <<std::to_string(avg_turntime) << " " << std::to_string(avg_wait) << " " << std::to_string(avg_res)<< " " << std::to_string(procutil) << std::endl;
     
 }
 
