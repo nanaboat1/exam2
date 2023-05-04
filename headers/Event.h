@@ -29,7 +29,7 @@ protected:
     int prio; 
 
 public:
-    Event( int arrival, int prio, int type, int jobId);
+    Event(int _id, int arrival, int prio, int type, int jobId);
     Event();
 
     std::string toString( ); 

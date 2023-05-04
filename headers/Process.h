@@ -23,6 +23,8 @@ public:
 
     void setExecuted(bool curState);
 
+    void setRemain(int curTime);
+
     void addWaitTime(int num);
 
     int getPid() const;
@@ -46,7 +48,7 @@ public:
 protected:
     int pid;
     std::string state; // possible enum
-    int remaining_time;
+    
     bool arrive;
     bool depart;
     bool execute;
@@ -58,6 +60,7 @@ protected:
 public:
     Process();
     Process(int pid, int arrival, int execution, int priority);
+    int remaining_time;
 };
 
 #endif

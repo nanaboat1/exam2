@@ -59,3 +59,12 @@ int Process::getPriority() const { return priority; }
 int Process::getExecutionNumber() const { return executionNumber; }
 
 int Process::getInterArrivalTime() const { return interArrivalTime; }
+
+// update remaining time to be executed.
+void Process::setRemain( int curTime ) { 
+
+    if ( curTime < remaining_time ) { remaining_time -= curTime; }
+
+    // error for ensuring there are no negative remaining time.
+    if ( remaining_time < 0 ) { remaining_time = 0; }
+}
