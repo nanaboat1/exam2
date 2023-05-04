@@ -18,9 +18,10 @@
 #include <stack>
 #include <iomanip> 
 #include <unistd.h>
+#include <cmath>
 
 // global state variables.
-const int totalSimulationTime = 1000;
+const int totalSimulationTime = 100;
 int simClock = 0;
 int numEvents = 0; // get's updated whenever there's a new event created in FEL.
 
@@ -122,7 +123,7 @@ public:
             curProc.setState();
             std::cout << curProc.toString() << " in " << std::to_string(immiEvt.getTime()) << " secs" << std::endl; 
 
-            sleep(immiEvt.getTime()% 10); 
+            //sleep(immiEvt.getTime()% 10); 
         } 
 
         
@@ -166,7 +167,7 @@ public:
             }
         } 
 
-         sleep(immiEvt.getTime()% 10); 
+        //sleep(immiEvt.getTime()% 10); 
 
         // schedule a departure event. with the specific imminent JobId.
         futureEventList.push(Event(immiEvt.getid(), simClock,1, 2, immiEvt.getJobId() )); 
@@ -308,6 +309,8 @@ void calcStats( int _eventID ) {
             } 
         }
         Tracker.push_back(PerformanceStats(_eventID)); // create new performance statistics. 
+
+        
 }
 
 void analyzeData( ) { 
@@ -324,11 +327,11 @@ void analyzeData( ) {
         
     }
 
-    avg_turntime = totalturn / Tracker.size(); 
-    avg_wait = total_wait / Tracker.size(); 
-    avg_res = total_res / Tracker.size(); 
+    avg_turntime = std::round(totalturn / Tracker.size() ); 
+    avg_wait = std::round(total_wait / Tracker.size()); 
+    avg_res = std::round(total_res / Tracker.size()); 
 
-    std::cout << std::to_string(throughput) << "  " <<std::to_string(avg_turntime) << " " << std::to_string(avg_wait) << " " << std::to_string(avg_res)<< " " << std::to_string(procutil) << std::endl;
+    std::cout << std::to_string(std::round(throughput)) << "  " <<std::to_string(avg_turntime) << " " << std::to_string(avg_wait) << " " << std::to_string(avg_res)<< " " << std::to_string(std::round( procutil)) << std::endl;
     
 }
 
@@ -364,6 +367,10 @@ int main()
         }
     } 
 
+    // statistics collector.
+    int avg_turntime, avg_wait, avg_res; 
+    int totalturn, total_wait, total_res, throughput=0, procutil=0;
+
  
     // simClock will be updated within the processes.
     while (simClock < totalSimulationTime)
@@ -376,22 +383,24 @@ int main()
         std::cout << immiEvt.toString() << " is scheduled" << std::endl;
 
         // check if event does not exist. using a util function.
-        calcStats( immiEvt.getid() ); 
+        throughput += simClock;
+        procutil += 1;
 
-        curStats.ProcessorUtil += 1;
-        
+        numEvents += 1;       
         switch (immiEvt.getType())
         {
+
+            procutil += 1;
         case 1:
-            curStats.WaitTime += immiEvt.getTime();
+            total_wait += simClock;
             arrivalEvent();
-            curStats.ResponseTime += immiEvt.getTime();
-            
+            total_res += simClock;           
             break; 
         case 2:
-            curStats.Turnaround += simClock;
+            totalturn += simClock; 
+            total_wait += simClock;
             departureDepart();
-            curStats.Throughput += immiEvt.getTime();
+            throughput += simClock;
             break;
         default:
             break;
@@ -402,8 +411,14 @@ int main()
         futureEventList.pop();
     } 
 
-    std::cout << std::endl; 
-    analyzeData(); 
+    // statistics calculator after every simulation. 
+    avg_turntime = totalturn / (numEvents*1000); 
+    avg_wait = total_wait / (numEvents *1000);
+    avg_res = total_res /   (numEvents*1000); 
+
+    std::cout << "--------------------" <<std::endl; 
+    std::cout<< "stats" << std::endl; 
+    std::cout << std::to_string(std::round(throughput)) << "  " <<std::to_string(avg_turntime) << " " << std::to_string(avg_wait) << " " << std::to_string(avg_res)<< " " << std::to_string(std::round( procutil)) << std::endl;
 
     return 0;
 }
