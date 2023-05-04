@@ -21,6 +21,10 @@ int Event::getType() const{
 int Event::getJobId() const{
     return jobId;
 }
+int Event::getTime() const{
+    return time;
+};
+
 
 Event::Event( int arrival, int prio, int type, int jobId ) {
     this->time = arrival;
@@ -29,5 +33,6 @@ Event::Event( int arrival, int prio, int type, int jobId ) {
     this->jobId = jobId;
 
 }
+Event::Event(){}
 
 std::string Event::toString( ) { return  std::to_string(id); }

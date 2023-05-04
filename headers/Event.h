@@ -19,6 +19,7 @@ public:
     int getid() const;
     int getType() const;
     int getJobId() const;
+    int getTime() const;
 
 protected:
     int id;
@@ -29,6 +30,7 @@ protected:
 
 public:
     Event( int arrival, int prio, int type, int jobId);
+    Event();
 
     std::string toString( ); 
 };

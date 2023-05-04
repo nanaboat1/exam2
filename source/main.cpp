@@ -62,6 +62,7 @@
 // create an FEL of type Event. Global variable so it is accessed by different functions.
 std::vector<Event> futureEventList;
 std::vector<Process> processList;
+Event immiEvt;
 
 // runs our simulation.
 int arrivalEvent(/** Imminent Event arg */)
@@ -72,6 +73,18 @@ int arrivalEvent(/** Imminent Event arg */)
 int departureDepart(/** Imminent Event Arg */)
 {
     std::cout << "ptocess has departed";
+}
+
+
+Event getNext(){
+    Event temp(100000000, 0,0,0);
+    for (int i =0; i<futureEventList.size(); i++){
+        if(futureEventList[i].getTime() < temp.getTime()) {
+            temp = futureEventList[i];
+            
+        }
+    }
+    return temp;
 }
 
 int main()
@@ -97,16 +110,12 @@ int main()
     const int totalSimulationTime = 1000;
     int clock = 0;
     int numInQueue = 0;
-    Event immiEvt = futureEventList.back();
-
 
     // clock will be updated within the processes.
 
     while (clock < totalSimulationTime)
     { // adapted from in-class lectures.
-        clock += 100;
-        immiEvt = futureEventList.back();
-        futureEventList.pop_back();
+        immiEvt = getNext();
 
         std::cout << immiEvt.toString() << " : " << immiEvt.getType()<< std::endl;
 
