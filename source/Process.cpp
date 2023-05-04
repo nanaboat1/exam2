@@ -46,14 +46,11 @@ void Process::setExecuted(bool curState) { execute = curState; }
 // Getter for state
 void Process::setState(){ 
     
-    if ( arrive == true) { 
-        state = "arrived";
-    } else if (execute == true)
-    {
-        state = "executed"; 
-    }
-    
-    
+    execute = true;
+    if ( execute == true) { 
+        state = "executed";
+    } 
+      
 }
 
 // Getter for arrival_time
@@ -80,6 +77,6 @@ void Process::setRemain( int curTime ) {
 
 std::string Process::toString() { 
 
-    std::string out = "[ pid: " + std::to_string(pid) + "activity:" + state + "]";
+    std::string out = "[ pid: " + std::to_string(pid) + ", activity: " + state + " ]";
     return out; 
 }

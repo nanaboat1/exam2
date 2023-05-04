@@ -17,6 +17,7 @@
 #include <cstdlib> 
 #include <stack>
 #include <iomanip> 
+#include <unistd.h>
 
 // global state variables.
 const int totalSimulationTime = 1000;
@@ -84,6 +85,9 @@ public:
 
             // add to departure queue
             PriorDepartQueue.push_back( curProc );
+            curProc.setState();
+            sleep(immiEvt.getTime()% 10); 
+            std::cout << curProc.toString() << " in " << std::to_string(immiEvt.getTime()) << " secs" << std::endl;  
         }
 
             // when depart queue is full , you cant schedule a job for this queue.
@@ -113,7 +117,13 @@ public:
             // add to departure queue when done execution.
             FCFSDepartQueue.push_back( curProc );
 
+            curProc.setState();
+            std::cout << curProc.toString() << " in " << std::to_string(immiEvt.getTime()) << " secs" << std::endl; 
+
+            sleep(immiEvt.getTime()% 10); 
         } 
+
+        
 
         FCFS_aval = false; 
         // schedule a departure event. with the specific imminent JobId.
@@ -138,17 +148,21 @@ public:
             // runtime for simplicity. timeQuantum doesnt change for any process.
             simClock += timeQuantum; 
 
-            curProc.setRemain( timeQuantum ); // updt. 
+            curProc.setRemain( timeQuantum ); // updt using time quantum.
 
             //check if there's still some remaining time for the process.
             if ( curProc.getRemainingTime() <= 0 ) { 
 
                 // schedule it for departure. update FEL. maybe create depart queue. and put inside.
+                curProc.setState();
+                std::cout << curProc.toString() << " in " << std::to_string(immiEvt.getTime()) << " secs" << std::endl;  
                 RRDepartQueue.push_back( curProc );
             } else { 
                 RoundRobinQueue.push_back( curProc );// will be executed again.
             }
         } 
+
+         sleep(immiEvt.getTime()% 10); 
 
         // schedule a departure event. with the specific imminent JobId.
         futureEventList.push(Event(immiEvt.getid(), simClock,1, 2, immiEvt.getJobId() )); 
@@ -157,12 +171,6 @@ public:
 
         return 1; 
         
-    }
-
-    // executes a job based on the FEL.
-    int Execute()
-    {
-
     }
 
     // work on it later
@@ -180,7 +188,7 @@ int arrivalEvent(/** Imminent Event arg */)
 
     // Generate Processes, and time for each processes in such a way that it is within the bounds of the immiEvent Time.
     int total_time = immiEvt.getTime(); 
-    int indyProcTime = rand() % (total_time + 1); int track_indyTime = 0;
+    int indyProcTime = rand() % (total_time + 1)+ rand() % 25; int Pid = rand() % 1000 + 1;
     ProcessTimes.push(indyProcTime);
 
 
@@ -196,7 +204,7 @@ int arrivalEvent(/** Imminent Event arg */)
     switch(immiEvt.getJobId() ) {
         case 1: 
             // generate random process for execution.  
-            while( !ProcessTimes.empty() ) { coreA.PirorityQueue.push_back(Process(1,simClock+1,ProcessTimes.front(), 1));  ProcessTimes.pop(); }
+            while( !ProcessTimes.empty() ) { coreA.PirorityQueue.push_back(Process(Pid,simClock+indyProcTime,ProcessTimes.front(), 1));  ProcessTimes.pop(); }
             
             if (coreA.PQ_aval == true ) { 
                 coreA.runPriorQueue();
@@ -262,18 +270,6 @@ int departureDepart(/** Imminent Event Arg */)
     /** Logic and Stats for Code */
     return 1; 
 }
-
-/** 
-Event getNext(){
-    Event temp(100000000, 0,0,0);
-    for (int i =0; i<futureEventList.size(); i++){
-        if(futureEventList[i].getTime() < temp.getTime()) {
-            temp = futureEventList[i];
-            
-        }
-    }
-    return temp;
-} */
 
 int main()
 {   
