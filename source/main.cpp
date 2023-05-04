@@ -14,50 +14,50 @@
 #include "../headers/Process.h"
 #include "../headers/Event.h"
 
-// class Scheduler
-// {
-// public:
-//     std::vector<Process> FCFSQueue;
-//     std::vector<Process> RoundRobinQueue;
-//     std::vector<Process> PirorityQueue;
-//     bool FCFS_aval;    // det if fcfs available
-//     bool RR_aval;      // det if rr available
-//     bool PQ_aval;      //   det if pq available
-//     int scheduleState; // determines which queue to use based on Event.
+class Scheduler
+{
+public:
+    std::vector<Process> FCFSQueue;
+    std::vector<Process> RoundRobinQueue;
+    std::vector<Process> PirorityQueue;
+    bool FCFS_aval;    // det if fcfs available
+    bool RR_aval;      // det if rr available
+    bool PQ_aval;      //   det if pq available
+    int scheduleState; // determines which queue to use based on Event.
 
-// protected:
-//     int sID; // specific scheduler's ID.
+protected:
+    int sID; // specific scheduler's ID.
 
-// public:
-//     // default constructor.
-//     Scheduler::Scheduler(int _ID) : sID(_ID), FCFS_aval(true), PQ_aval(true), RR_aval(true) {}
+public:
+    // default constructor.
+    Scheduler::Scheduler(int _ID) : sID(_ID), FCFS_aval(true), PQ_aval(true), RR_aval(true) {}
 
-//     // executes a job based on the FEL.
-//     int Execute()
-//     {
+    // executes a job based on the FEL.
+    int Execute()
+    {
 
-//         switch (immiEvt.getJobId()) // based on job choose a specific queue.
-//         {
-//         case 1: // Pirority Queue
-//             /* code */
-//             break;
-//         case 2: // Call RoundRobin
-//             /* code */
-//             break;
-//         case 3: // Call FCFS
+        switch (immiEvt.getJobId()) // based on job choose a specific queue.
+        {
+        case 1: // Pirority Queue
+            /* code */
+            break;
+        case 2: // Call RoundRobin
+            /* code */
+            break;
+        case 3: // Call FCFS
 
-//             /** code */
-//             break;
+            /** code */
+            break;
 
-//         default: // call first come first serve.
-//             /* code */
-//             break;
-//         }
-//     }
+        default: // call first come first serve.
+            /* code */
+            break;
+        }
+    }
 
-//     // work on it later
-//     void updateStatistics(); // updates certain statistics and send it to SimulateCore for stat variables.
-// };
+    // work on it later
+    void updateStatistics(); // updates certain statistics and send it to SimulateCore for stat variables.
+};
 
 // create an FEL of type Event. Global variable so it is accessed by different functions.
 std::vector<Event> futureEventList;
@@ -81,7 +81,7 @@ Event getNext(){
     for (int i =0; i<futureEventList.size(); i++){
         if(futureEventList[i].getTime() < temp.getTime()) {
             temp = futureEventList[i];
-            
+            futureEventList
         }
     }
     return temp;
