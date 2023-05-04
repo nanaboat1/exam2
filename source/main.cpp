@@ -60,6 +60,31 @@ public:
     // work on it later
     void updateStatistics(); // updates certain statistics and send it to SimulateCore for stat variables.
 };
+        // executes a job based on the FEL.
+        int Execute( ) { 
+
+            switch (immiEvt.getJob()) // based on job choose a specific queue.
+            {
+            case 1: // Pirority Queue
+                /* code */
+                break;
+            case 2: // Call RoundRobin
+                /* code */
+                break; 
+            case 3: // Call FCFS
+
+                /** code */
+                break; 
+
+        default: // call first come first serve.
+            /* code */
+            break;
+        }
+    }
+
+    // work on it later
+    void updateStatistics(); // updates certain statistics and send it to SimulateCore for stat variables.
+};
 
 // create an FEL of type Event. Global variable so it is accessed by different functions.
 std::vector<Event> futureEventList;
@@ -118,10 +143,10 @@ int main()
         case 1:
             /* code */ // execute based on type of immiEvent
             break;
-        case 2:
-        
-            break;
+        case 2: 
 
+        case 2: 
+        
         default:
             break;
         }
