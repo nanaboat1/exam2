@@ -49,7 +49,6 @@ class Scheduler {
                 /* code */
                 break; 
             case 3: // Call FCFS
-
                 /** code */
                 break; 
 
