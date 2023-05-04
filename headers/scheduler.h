@@ -3,29 +3,23 @@
 #include <queue>
 #include <string>
 #include "../headers/Process.h"
+#include <vector> 
 
 class Scheduler { 
 
-    public :
+    public : 
 
-        // settor's
-        void addToArrived( std::queue<Process> _arrived );
+        std::vector<Process> FCFSQueue;
+        std::vector<Process> RoundRobinQueue; 
+        std::vector<Process> PirorityQueue;
+        bool FCFS_aval; // det if fcfs available
+        bool RR_aval;   // det if rr available
+        bool PQ_aval; //   det if pq available
+        int scheduleState; // determines which queue to use based on Event. 
 
-        // departs finished processes from queue. based on state flag.
-        void departFromQueue ( ); 
-
-        // load new processes into the execution memory.
-        Process getFromArrived() const ;
-        
-        // get size of current arrival.
-        int getLengthArrival() const ;
-        
 
     protected : 
-
-        std::queue<Process> arrived;
-        int scheduleID;
-
+        int sID; // specific scheduler's ID. 
 
     public : 
 
@@ -33,9 +27,9 @@ class Scheduler {
         Scheduler( );
 
         // runs ready state objects in the arrived queue and departs them and updates them. i.e depending on the execute
-        void execute( );  // based on a certain algo schedule.
+        int Execute( );  // based on a certain algo schedule.
 
-        // 
+        // work on it later
         void updateStatistics(); // updates certain statistics and send it to SimulateCore for stat variables.
         
     
