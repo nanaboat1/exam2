@@ -3,9 +3,9 @@
 // <Course Code: CS-475W-1>
 // <Lab Module # : 7>
 // License: Copyright <2023> <Nana Boateng Amoah> && <Bhavesh> <Bhagtani>
-// Resources used: <Lecture 7 and 8 from Class slides> 
-// Worked with <Bhavesh Bhagtani> 
-// <Discrete Event Model Simultion> 
+// Resources used: <Lecture 7 and 8 from Class slides>
+// Worked with <Bhavesh Bhagtani>
+// <Discrete Event Model Simultion>
 
 // standard io libraries.
 #include <iostream>
@@ -15,125 +15,117 @@
 #include "../headers/SimulateCore.h"
 #include "../headers/Event.h"
 
+class Scheduler
+{
 
-class Scheduler { 
+public:
+    std::vector<Process> FCFSQueue;
+    std::vector<Process> RoundRobinQueue;
+    std::vector<Process> PirorityQueue;
+    bool FCFS_aval;    // det if fcfs available
+    bool RR_aval;      // det if rr available
+    bool PQ_aval;      //   det if pq available
+    int scheduleState; // determines which queue to use based on Event.
 
-    public : 
+protected:
+    int sID; // specific scheduler's ID.
 
-        std::vector<Process> FCFSQueue;
-        std::vector<Process> RoundRobinQueue; 
-        std::vector<Process> PirorityQueue;
-        bool FCFS_aval; // det if fcfs available
-        bool RR_aval;   // det if rr available
-        bool PQ_aval; //   det if pq available
-        int scheduleState; // determines which queue to use based on Event. 
+public:
+    // default constructor.
+    Scheduler::Scheduler(int _ID) : sID(_ID), FCFS_aval(true), PQ_aval(true), RR_aval(true) {}
 
+    // executes a job based on the FEL.
+    int Execute()
+    {
 
-    protected : 
-        int sID; // specific scheduler's ID. 
+        switch (immiEvt.getJobId()) // based on job choose a specific queue.
+        {
+        case 1: // Pirority Queue
+            /* code */
+            break;
+        case 2: // Call RoundRobin
+            /* code */
+            break;
+        case 3: // Call FCFS
 
-    public : 
+            /** code */
+            break;
 
-        // default constructor.
-        Scheduler::Scheduler(int _ID ): sID(_ID), FCFS_aval(true), PQ_aval(true), RR_aval(true) {  }
+        default: // call first come first serve.
+            /* code */
+            break;
+        }
+    }
 
-        // executes a job based on the FEL.
-        int Execute( ) { 
-
-            switch (immiEvt.getJob()) // based on job choose a specific queue.
-            {
-            case 1: // Pirority Queue
-                /* code */
-                break;
-            case 2: // Call RoundRobin
-                /* code */
-                break; 
-            case 3: // Call FCFS
-
-                /** code */
-                break; 
-
-            default: // call first come first serve.
-                /* code */
-                break;
-            }
-
-
-
-        } 
-
-
-        // work on it later
-        void updateStatistics(); // updates certain statistics and send it to SimulateCore for stat variables.
-        
-    
-
-}; 
+    // work on it later
+    void updateStatistics(); // updates certain statistics and send it to SimulateCore for stat variables.
+};
 
 // create an FEL of type Event. Global variable so it is accessed by different functions.
-std::vector<Event> FutureEventList; 
-Event immiEvt; 
+std::vector<Event> futureEventList;
+std::vector<Process> processList;
+Event immiEvt;
 
-
-
-
-
-
-
-
-// runs our simulation. 
-int arrivalEvent( /** Imminent Event arg */ ) { 
+// runs our simulation.
+int arrivalEvent(/** Imminent Event arg */)
+{
 
     // if a processor is free , just execute.
-        // check for a free processor.
+    // check for a free processor.
 
     // else put it in the idle queue.
-        // queue is determined 
+    // queue is determined
 }
 
-int departureDepart ( /** Imminent Event Arg */) {
-
-
+int departureDepart(/** Imminent Event Arg */)
+{
 }
 
+int main()
+{
+     for (int i = 1; i <= 10; ++i) {
+        int pid = i;
+        int execution = std::rand() % 20 + 1; // random execution time between 1 and 20
+        int arrival = std::rand() % i*10 + 1; // random execution time between 1 and 20
+        int priority = std::rand() % 3 + 1; // random priority between 1 and 3
+        Process p(pid, arrival, execution, priority);
+        processList.push_back(p);
 
-int main() {
+        Event aEvent = Event(arrival,priority,0,pid);
+        Event dEvent = Event(arrival+execution,priority,1,pid);
+        futureEventList.push_back(aEvent);
+        futureEventList.push_back(dEvent);
+    }
 
-   for  ( int i =5; i>0; i--) { 
-    FutureEventList.push_back(Event(i, 0.4 + i, 3, 2,1)); 
-   }
-   // sort whenever tired.
+    // sort whenever tired.
 
-   const int totalSimTime = 10; 
-   int curTime = 0; 
-   int count = 0;
+    const int totalSimulationTime = 1000; 
+    int clock = 0;
+    int numInQueue = 0;
 
-   //curTime will be updated within the processes.
+    // clock will be updated within the processes.
 
-   while ( curTime < totalSimTime ) { // adapted from in-class lectures.
+    while (clock < totalSimulationTime)
+    { // adapted from in-class lectures.
 
-        immiEvt = FutureEventList.back(); 
+        immiEvt = futureEventList.back();
+        futureEventList.pop_back();
 
-        FutureEventList.pop_back();
-        std::cout << immiEvt.toString() << std::endl; 
+        std::cout << immiEvt.toString() << std::endl;
 
         switch (immiEvt.getType())
         {
         case 1:
             /* code */ // execute based on type of immiEvent
             break;
-        case 2: 
-
-        case 2: 
+        case 2:
         
+            break;
+
         default:
             break;
         }
-        
-   }
+    }
 
-    
-
-
-    return 0; 
+    return 0;
 }
