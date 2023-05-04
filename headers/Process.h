@@ -30,7 +30,7 @@ public:
     int getPid() const;
     // Getter for state
 
-    std::string getState() const;
+    void setState() ;
     // Getter for arrival_time
 
     int getRemainingTime() const;
@@ -61,6 +61,7 @@ public:
     Process();
     Process(int pid, int arrival, int execution, int priority);
     int remaining_time;
+    std::string toString(); 
 };
 
 #endif

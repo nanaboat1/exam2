@@ -24,9 +24,8 @@ Process::Process(int pid, int arrival, int execution, int priority)
     this->execute=execution;
     this->priority = priority;
     this->arrive = arrival;
-    int interArrivalTime = std::rand() % 10 + 1; // random inter-arrival time between 1 and 10
     state = "New";
-    remaining_time = execution;
+    this->remaining_time = execution;
     executionNumber = 0;
 }
 
@@ -45,7 +44,17 @@ void Process::setDepart(bool curState) { depart = curState; }
 void Process::setExecuted(bool curState) { execute = curState; }
 
 // Getter for state
-std::string Process::getState() const { return state; }
+void Process::setState(){ 
+    
+    if ( arrive == true) { 
+        state = "arrived";
+    } else if (execute == true)
+    {
+        state = "executed"; 
+    }
+    
+    
+}
 
 // Getter for arrival_time
 int Process::getRemainingTime() const { return remaining_time; }
@@ -63,8 +72,14 @@ int Process::getInterArrivalTime() const { return interArrivalTime; }
 // update remaining time to be executed.
 void Process::setRemain( int curTime ) { 
 
-    if ( curTime < remaining_time ) { remaining_time -= curTime; }
+    remaining_time -= curTime; 
 
     // error for ensuring there are no negative remaining time.
     if ( remaining_time < 0 ) { remaining_time = 0; }
+}
+
+std::string Process::toString() { 
+
+    std::string out = "[ pid: " + std::to_string(pid) + "activity:" + state + "]";
+    return out; 
 }

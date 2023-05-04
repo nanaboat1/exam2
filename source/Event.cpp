@@ -11,6 +11,7 @@
 #include <vector> // standard template vector
 #include <queue>  // standard queue data structure.
 #include "../headers/Event.h"
+#include "iomanip"
 
 int Event::getid() const{
     return id;
@@ -37,4 +38,16 @@ Event::Event(int _id, int arrival, int prio, int type, int jobId ) {
 }
 Event::Event() : id(0), time(0), prio(0), type(0), jobId(0) {}
 
-std::string Event::toString( ) { return  std::to_string(id); }
+std::string Event::toString( ) { 
+
+    std::string event_type; 
+    if ( type == 1) { 
+        event_type = " Arrival ";
+    } else { 
+        event_type = " Departed ";
+    }
+
+    std::string out = "{  Event_id : " + std::to_string(id) + ", time : "+ std::to_string(time) + ", job_Id: " + std::to_string(jobId) + ", Type: "+ event_type + "  } ";
+    
+    return out; 
+ }
